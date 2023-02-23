@@ -3,6 +3,7 @@ package config
 import (
 	"os"
 
+	"github.com/rafli-lutfi/go-auth/model"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
@@ -10,7 +11,8 @@ import (
 var db *gorm.DB
 
 func ConnectDatabase() {
-	db, err := gorm.Open(postgres.New(postgres.Config{
+	var err error
+	db, err = gorm.Open(postgres.New(postgres.Config{
 		DriverName: "pgx",
 		DSN:        os.Getenv("DATABASE_URL"),
 	}), &gorm.Config{})
@@ -20,7 +22,7 @@ func ConnectDatabase() {
 	}
 
 	// Migrate The Schema
-	db.AutoMigrate()
+	db.AutoMigrate(model.User{})
 }
 
 func GetDBConnection() *gorm.DB {

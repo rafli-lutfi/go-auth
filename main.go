@@ -1,10 +1,9 @@
 package main
 
 import (
-	"net/http"
-
 	"github.com/gin-gonic/gin"
 	"github.com/rafli-lutfi/go-auth/config"
+	"github.com/rafli-lutfi/go-auth/routes"
 )
 
 func init() {
@@ -13,15 +12,10 @@ func init() {
 }
 
 func main() {
-	// db := config.GetDBConnection()
+	db := config.GetDBConnection()
 	r := gin.Default()
 
-	// For Check Connection Only
-	r.GET("/ping", func(c *gin.Context) {
-		c.JSON(http.StatusOK, gin.H{
-			"message": "pong",
-		})
-	})
+	routes.RunServer(db, r)
 
 	r.Run()
 }
